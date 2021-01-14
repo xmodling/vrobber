@@ -59,7 +59,7 @@ for event in longpoll.listen():
                sender(event.peer_id, voice)
             if '+voice' in event.text.lower():
                 text = event.text.lower()
-                if len(text) > 8:
+                if len(text) > 7:
                     name = text[7:]
                     getv = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.getById',
@@ -72,6 +72,10 @@ for event in longpoll.listen():
                     key = all['access_key']
                     result = f'{oid}_{mid}_{key}'
                     save_db(f"INSERT INTO VkScript (name, doc) VALUES ('{name}', '{result}')")
+                    msglogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id=0&message=Голосовое сообщение "{name}" добавлено. ✅',
+                                        token = token)
                 else:
                     None
             if '/vlist' in event.text.lower():
@@ -83,7 +87,15 @@ for event in longpoll.listen():
                                         params = f'peer_id={event.peer_id}&random_id=0&message=Список твоих сохранённых ГС: {listgs}',
                                         token = token)
                                         ).json()
+            if '-voice' in event.text.lower():
+                text = event.text.lower()
+                if len(text) > 7:
+                    name = text[7:]
+                    save_db(f"DELETE FROM tablichka WHERE name = '{name}'")
+                    msglogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id=0&message=Голосовое сообщение "{name}" успешно удалено. ✅',
+                                        token = token)
     except Exception as e:
         print(e)
         None
-"""INSERT INTO VkScript (name, doc) VALUES ('myasnik', '548365367_582527499_3d2e9fd136eeab3b78')"""
