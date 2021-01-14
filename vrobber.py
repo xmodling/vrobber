@@ -58,7 +58,7 @@ for event in longpoll.listen():
                print('TEST', voice)
                sender(event.peer_id, voice)
             if '+voice' in event.text.lower():
-                msgid = event.message_id + 1
+                msgid = event.message_id
                 text = event.text.lower()
                 if len(text) > 7:
                     name = text[7:]
