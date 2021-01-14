@@ -53,10 +53,15 @@ for event in longpoll.listen():
     try:
         if event.from_me:
             if '/voice' in event.text.lower():
-               text = event.text.lower()[7:]
-               voice = infos_db(f"SELECT doc FROM VkScript WHERE name = '{text}'")[0][0]
-               print('TEST', voice)
-               sender(event.peer_id, voice)
+                msgid = event.message_id
+                text = event.text.lower()[7:]
+                voice = infos_db(f"SELECT doc FROM VkScript WHERE name = '{text}'")[0][0]
+                sender(event.peer_id, voice)
+                dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                         method = 'messages.delete',
+                                         params = f'message_ids={msgid}&delete_for_all={1}',
+                                         token = token)
+                                   ).json()
             if '+voice' in event.text.lower():
                 msgid = event.message_id
                 text = event.text.lower()
