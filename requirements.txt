@@ -1,7 +1,3 @@
-os
 requests
 vk
 vk_api
-time
-json
-random
