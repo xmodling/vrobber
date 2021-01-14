@@ -76,11 +76,13 @@ for event in longpoll.listen():
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id=0&message=Голосовое сообщение "{name}" добавлено. ✅',
                                         token = token)
+                                            ).json()
                 else:
                     errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id=0&message=❌ Название введи, другалёк.',
                                         token = token)
+                                            ).json()
             if '/vlist' in event.text.lower():
                 f = infos_db('SELECT name FROM vkscript')
                 listgs = ', '.join(i[0] for i in f)
@@ -99,11 +101,13 @@ for event in longpoll.listen():
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id=0&message=Голосовое сообщение "{name}" успешно удалено. ✅',
                                         token = token)
+                                            ).json()
             else:
                 errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id=0&message=❌ Название введи, другалёк.',
                                         token = token)
+                                        ).json()
     except Exception as e:
         print(e)
         None
