@@ -96,18 +96,18 @@ for event in longpoll.listen():
                 text = event.text.lower()
                 if len(text) > 7:
                     name = text[7:]
-                    save_db(f"DELETE FROM tablichka WHERE name = '{name}'")
+                    save_db(f"DELETE FROM VkScript WHERE name = '{name}'")
                     msglogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id=0&message=Голосовое сообщение "{name}" успешно удалено. ✅',
                                         token = token)
                                             ).json()
-            else:
-                errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.send',
-                                        params = f'peer_id={event.peer_id}&random_id=0&message=❌ Название введи, другалёк.',
-                                        token = token)
-                                        ).json()
+                else:
+                    errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id=0&message=❌ Название введи, другалёк.',
+                                            token = token)
+                                            ).json()
     except Exception as e:
         print(e)
         None
