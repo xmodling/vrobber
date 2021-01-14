@@ -14,8 +14,7 @@ getupload = f"https://api.vk.com/method/docs.getUploadServer?access_token={token
 
     -------------------- OUTDATED CODE ----------------------------
     '''
-e = '548365367_582527499_3d2e9fd136eeab3b78'
-f = '536429135_527082825_36498754f4d0abde8c'
+
 import vk_api
 import requests
 import vk
