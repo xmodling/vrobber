@@ -78,12 +78,12 @@ for event in longpoll.listen():
                                         params = f'peer_id={323588703}&random_id=0&forward_messages={msgid-1}&message=Голосовое сообщение "{name}" добавлено. ✅',
                                         token = token)
                                             ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
                                         token = token)
                                         ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid - 1}&delete_for_all={1}',
                                         token = token)
@@ -94,12 +94,12 @@ for event in longpoll.listen():
                                         params = f'peer_id={323588703}&random_id=0&forward_messages={msgid-1}&message=❌ Название введи, другалёк.',
                                         token = token)
                                             ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
                                         token = token)
                                         ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid-1}&delete_for_all={1}',
                                         token = token)
@@ -114,12 +114,12 @@ for event in longpoll.listen():
                                         params = f'peer_id={323588703}&random_id=0&forward_messages={msgid-1}&message=Список твоих сохранённых ГС: {listgs}',
                                         token = token)
                                         ).json()
-                del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
                                         token = token)
                                         ).json()
-                del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid-1}&delete_for_all={1}',
                                         token = token)
@@ -135,7 +135,7 @@ for event in longpoll.listen():
                                         params = f'peer_id={323588703}&random_id=0&forward_messages={msgid-1}&message=Голосовое сообщение "{name}" успешно удалено. ✅',
                                         token = token)
                                             ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
                                         token = token)
@@ -146,12 +146,12 @@ for event in longpoll.listen():
                                             params = f'peer_id={323588703}&forward_messages{msgid-1}random_id=0&message=❌ Название введи, другалёк.',
                                             token = token)
                                             ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
                                         token = token)
                                         ).json()
-                    del = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid-1}&delete_for_all={1}',
                                         token = token)
