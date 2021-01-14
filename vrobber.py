@@ -22,7 +22,6 @@ import time
 import json
 import random
 import os
-from bs4 import BeautifulSoup as BS
 token = os.environ.get('vrobber_token')
 import sqlite3
 con = sqlite3.connect('gs.bd')
