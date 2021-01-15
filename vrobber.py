@@ -27,6 +27,7 @@ import sqlite3
 con = sqlite3.connect('gs.bd')
 sql = con.cursor()
 
+
 def info_db(f):
     sql.execute(f)
     return sql.fetchone()[0]
@@ -88,25 +89,15 @@ for event in longpoll.listen():
                                         params = f'message_ids={msgid}&delete_for_all={1}',
                                         token = token)
                                         ).json()
-                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.delete',
-                                        params = f'message_ids={msgid - 1}&delete_for_all={1}',
-                                        token = token)
-                                        ).json()
                 else:
                     errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid-1}&message=❌ Название введи, другалёк.',
+                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid}&message=❌ Название введи, другалёк.',
                                         token = token)
                                             ).json()
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
-                                        token = token)
-                                        ).json()
-                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.delete',
-                                        params = f'message_ids={msgid-1}&delete_for_all={1}',
                                         token = token)
                                         ).json()
             if '/vlist' in event.text.lower():
@@ -116,12 +107,7 @@ for event in longpoll.listen():
                 print(listgs)
                 lister = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid-1}&message=Список твоих сохранённых ГС: {listgs}',
-                                        token = token)
-                                        ).json()
-                dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.delete',
-                                        params = f'message_ids={msgid}&delete_for_all={1}',
+                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid}&message=Список твоих сохранённых ГС: {listgs}',
                                         token = token)
                                         ).json()
                 dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -154,11 +140,6 @@ for event in longpoll.listen():
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.delete',
                                         params = f'message_ids={msgid}&delete_for_all={1}',
-                                        token = token)
-                                        ).json()
-                    dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.delete',
-                                        params = f'message_ids={msgid-1}&delete_for_all={1}',
                                         token = token)
                                         ).json()
     except Exception as e:
