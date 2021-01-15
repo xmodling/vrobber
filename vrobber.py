@@ -49,7 +49,7 @@ def sender(peer_id = None, ids = None):
                                         token = token)
                                         ).json()
     print(gs)
-
+    
 for event in longpoll.listen():
     try:
         if event.from_me:
@@ -101,7 +101,7 @@ for event in longpoll.listen():
                                         token = token)
                                         ).json()
             if '/vlist' in event.text.lower():
-                msgid = event.message_id + 1
+                msgid = event.message_id
                 f = infos_db('SELECT name FROM vkscript')
                 listgs = ', '.join(i[0] for i in f)
                 print(listgs)
@@ -134,7 +134,7 @@ for event in longpoll.listen():
                 else:
                     errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                             method = 'messages.send',
-                                            params = f'peer_id={323588703}&forward_messages{msgid}random_id=0&message=❌ Название введи, другалёк.',
+                                            params = f'peer_id={323588703}&forward_messages={msgid}&random_id=0&message=❌ Название введи, другалёк.',
                                             token = token)
                                             ).json()
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
