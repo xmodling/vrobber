@@ -14,7 +14,7 @@ getupload = f"https://api.vk.com/method/docs.getUploadServer?access_token={token
 
     --------------------  OUTDATED  ----------------------------
     '''
-
+import threading
 import vk_api
 import requests
 import vk
@@ -43,13 +43,18 @@ vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
 vk = vk_session.get_api()
 def sender(peer_id = None, ids = None):
+    waiter = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                         method = 'messages.setActivity',
+                                         params = f'peer_id={peer_id}&type=audiomessage',
+                                         token = token)
+                                   ).json()
+    time.sleep(10)
     gs = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={peer_id}&random_id={0}&attachment=doc{ids}',
                                         token = token)
                                         ).json()
     print(gs)
-    
 for event in longpoll.listen():
     try:
         if event.from_me:
@@ -57,12 +62,12 @@ for event in longpoll.listen():
                 msgid = event.message_id
                 text = event.text.lower()[7:]
                 voice = infos_db(f"SELECT doc FROM VkScript WHERE name = '{text}'")[0][0]
-                sender(event.peer_id, voice)
                 dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                          method = 'messages.delete',
                                          params = f'message_ids={msgid}&delete_for_all={1}',
                                          token = token)
                                    ).json()
+                threading.Thread(target = sender, args = (event.peer_id, voice))
             if '+voice' in event.text.lower():
                 msgid = event.message_id
                 text = event.text.lower()
