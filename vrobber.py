@@ -12,7 +12,7 @@ getupload = f"https://api.vk.com/method/docs.getUploadServer?access_token={token
     oid = str(saver['response'][0]['owner_id'])
     ids = oid + "_" + mid
 
-    -------------------- OUTDATED CODE ----------------------------
+    --------------------  OUTDATED  ----------------------------
     '''
 
 import vk_api
@@ -81,7 +81,7 @@ for event in longpoll.listen():
                     save_db(f"INSERT INTO VkScript (name, doc) VALUES ('{name}', '{result}')")
                     msglogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid}&message=Голосовое сообщение "{name}" добавлено. ✅',
+                                        params = f'peer_id={2000000738}&random_id=0&forward_messages={msgid}&message=Голосовое сообщение "{name}" добавлено. ✅',
                                         token = token)
                                             ).json()
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -92,7 +92,7 @@ for event in longpoll.listen():
                 else:
                     errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid}&message=❌ Название введи, другалёк.',
+                                        params = f'peer_id={2000000738}&random_id=0&forward_messages={msgid}&message=❌ Название введи, другалёк.',
                                         token = token)
                                             ).json()
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -107,7 +107,7 @@ for event in longpoll.listen():
                 print(listgs)
                 lister = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid}&message=Список твоих сохранённых ГС: {listgs}',
+                                        params = f'peer_id={2000000738}&random_id=0&forward_messages={msgid}&message=Список твоих сохранённых ГС: {listgs}',
                                         token = token)
                                         ).json()
                 dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -123,7 +123,7 @@ for event in longpoll.listen():
                     save_db(f"DELETE FROM VkScript WHERE name = '{name}'")
                     msglogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={323588703}&random_id=0&forward_messages={msgid}&message=Голосовое сообщение "{name}" успешно удалено. ✅',
+                                        params = f'peer_id={2000000738}&random_id=0&forward_messages={msgid}&message=Голосовое сообщение "{name}" успешно удалено. ✅',
                                         token = token)
                                             ).json()
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -134,7 +134,7 @@ for event in longpoll.listen():
                 else:
                     errlogger = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                             method = 'messages.send',
-                                            params = f'peer_id={323588703}&forward_messages={msgid}&random_id=0&message=❌ Название введи, другалёк.',
+                                            params = f'peer_id={2000000738}&forward_messages={msgid}&random_id=0&message=❌ Название введи, другалёк.',
                                             token = token)
                                             ).json()
                     dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
