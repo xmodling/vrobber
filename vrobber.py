@@ -43,18 +43,26 @@ vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
 vk = vk_session.get_api()
 def sender(peer_id = None, ids = None):
-    waiter = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                         method = 'messages.setActivity',
-                                         params = f'peer_id={peer_id}&type=audiomessage',
-                                         token = token)
-                                   ).json()
-    time.sleep(10)
-    gs = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.send',
-                                        params = f'peer_id={peer_id}&random_id={0}&attachment=doc{ids}',
-                                        token = token)
-                                        ).json()
-    print(gs)
+    try:
+        waiter = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                             method = 'messages.setActivity',
+                                             params = f'peer_id={peer_id}&type=audiomessage',
+                                             token = token)
+                                       ).json()
+        time.sleep(5)
+        requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                             method = 'messages.setActivity',
+                                             params = f'peer_id={peer_id}&type=audiomessage',
+                                             token = token)
+                                       ).json()
+        gs = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={peer_id}&random_id={0}&attachment=doc{ids}',
+                                            token = token)
+                                            ).json()
+        print(gs)
+    except Exception:
+        None
 for event in longpoll.listen():
     try:
         if event.from_me:
@@ -67,7 +75,8 @@ for event in longpoll.listen():
                                          params = f'message_ids={msgid}&delete_for_all={1}',
                                          token = token)
                                    ).json()
-                threading.Thread(target = sender, args = (event.peer_id, voice))
+                a = threading.Thread(target = sender, args = (event.peer_id, voice))
+                a.start()
             if '+voice' in event.text.lower():
                 msgid = event.message_id
                 text = event.text.lower()
