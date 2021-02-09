@@ -69,12 +69,12 @@ for event in longpoll.listen():
             if '/voice' in event.text.lower():
                 msgid = event.message_id
                 text = event.text.lower()[7:]
-                voice = infos_db(f"SELECT doc FROM VkScript WHERE name = '{text}'")[0][0]
                 dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                          method = 'messages.delete',
                                          params = f'message_ids={msgid}&delete_for_all={1}',
                                          token = token)
                                    ).json()
+                voice = infos_db(f"SELECT doc FROM VkScript WHERE name = '{text}'")[0][0]
                 a = threading.Thread(target = sender, args = (event.peer_id, voice))
                 a.start()
             if '+voice' in event.text.lower():
