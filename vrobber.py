@@ -14,14 +14,7 @@ getupload = f"https://api.vk.com/method/docs.getUploadServer?access_token={token
 
     --------------------  OUTDATED  ----------------------------
     '''
-import threading
-import vk_api
-import requests
-import vk
-import time
-import json
-import random
-import os
+import threading, vk_api, requests, vk, time, json, random, os, sys, subprocess
 token = os.environ.get('vrobber_token')
 import sqlite3
 con = sqlite3.connect('gs.bd')
