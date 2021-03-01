@@ -1,3 +1,4 @@
 requests
 vk
 vk_api
+subprocess
