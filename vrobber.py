@@ -84,8 +84,8 @@ for event in longpoll.listen():
                                                       params = f'peer_id={event.peer_id}&random_id={0}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&reply_to={event.message_id}',
                                                       token = token)
                                                       ).json()
-            except Exception:
-                None
+            except Exception as es:
+                print(es)
             if '/voice' in event.text.lower():
                 msgid = event.message_id
                 text = event.text.lower()[7:]
