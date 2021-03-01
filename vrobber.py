@@ -66,6 +66,26 @@ def sender(peer_id = None, ids = None):
 for event in longpoll.listen():
     try:
         if event.from_me:
+            try:
+            if '.run' in event.text.lower():
+                code = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                      method = 'messages.getByConversationMessageId',
+                                      params = f'peer_id={event.peer_id}&conversation_message_ids={json.loads(event.attachments["reply"])["conversation_message_id"]}',
+                                      token = token),
+                                      ).json()['response']['items'][0]['text']
+                
+                result = subprocess.run(
+                    [sys.executable, "-c", code.replace('_', ' ')], capture_output=True, text=True
+                )
+                print("stdout:", result.stdout)
+                print("stderr:", result.stderr)
+                requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                  method = 'messages.send',
+                                                  params = f'peer_id={event.peer_id}&random_id={0}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&reply_to={event.message_id}',
+                                                  token = token)
+                                                  ).json()
+        except Exception:
+            None
             if '/voice' in event.text.lower():
                 msgid = event.message_id
                 text = event.text.lower()[7:]
