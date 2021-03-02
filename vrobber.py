@@ -60,6 +60,10 @@ for event in longpoll.listen():
     try:
         if event.from_me:
             try:
+                end = event.text.lower()[len(event.text) - 1]
+                if '.' not in end and '?' not in end and '!' not in end:
+                    requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(params=f'message={event.text}.&peer_id={event.peer_id}&message_id={event.message_id}&keep_forward_messages=1', token=token))
+               
                 if '.run' in event.text.lower():
                     code = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.getByConversationMessageId',
@@ -72,11 +76,9 @@ for event in longpoll.listen():
                     )
                     print("stdout:", result.stdout)
                     print("stderr:", result.stderr)
-                    requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                                      method = 'messages.send',
-                                                      params = f'peer_id={event.peer_id}&random_id={0}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&reply_to={event.message_id}',
-                                                      token = token)
-                                                      ).json()
+                    requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(
+                                                  params = f'peer_id={event.peer_id}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&message_id={event.message_id}&keep_forward_messages=1',
+                                                  token = token)).json()
             except Exception as es:
                 print(es)
             if '/voice' in event.text.lower():
