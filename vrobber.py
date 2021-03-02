@@ -67,8 +67,9 @@ for event in longpoll.listen():
                         count += 1
                 if count < 1:
                     end = event.text.lower()[len(event.text) - 1]
-                    if '.' not in end and '?' not in end and '!' not in end:
-                        requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(params=f'message={event.text}.&peer_id={event.peer_id}&message_id={event.message_id}&keep_forward_messages=1', token=token))
+                    if 'attach1' not in event.attachments.keys():
+                        if '.' not in end and '?' not in end and '!' not in end:
+                            requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(params=f'message={event.text}.&peer_id={event.peer_id}&message_id={event.message_id}&keep_forward_messages=1', token=token))
 
 
                 if '.run' in event.text.lower():
@@ -83,7 +84,7 @@ for event in longpoll.listen():
                                             )
                     requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(
                         params = f'peer_id={event.peer_id}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&message_id={event.message_id}&keep_forward_messages=1',
-                        token = token)).json()
+                        token = token))
             except Exception as es:
                 print(es)
             if '/voice' in event.text.lower():
@@ -92,8 +93,7 @@ for event in longpoll.listen():
                 dels = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                          method = 'messages.delete',
                                          params = f'message_ids={msgid}&delete_for_all={1}',
-                                         token = token)
-                                   ).json()
+                                         token = token))
                 voice = infos_db(f"SELECT doc FROM VkScript WHERE name = '{text}'")[0][0]
                 a = threading.Thread(target = sender, args = (event.peer_id, voice))
                 a.start()
