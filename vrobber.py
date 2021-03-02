@@ -19,8 +19,9 @@ token = os.environ.get('vrobber_token')
 import sqlite3
 con = sqlite3.connect('gs.bd')
 sql = con.cursor()
-
-
+keylang = [
+    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+]
 def info_db(f):
     sql.execute(f)
     return sql.fetchone()[0]
@@ -60,25 +61,29 @@ for event in longpoll.listen():
     try:
         if event.from_me:
             try:
-                end = event.text.lower()[len(event.text) - 1]
-                if '.' not in end and '?' not in end and '!' not in end:
-                    requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(params=f'message={event.text}.&peer_id={event.peer_id}&message_id={event.message_id}&keep_forward_messages=1', token=token))
-               
+                count = 0
+                for i in range(len(keylang)):
+                    if keylang[i] in event.text.lower():
+                        count += 1
+                if count < 1:
+                    end = event.text.lower()[len(event.text) - 1]
+                    if '.' not in end and '?' not in end and '!' not in end:
+                        requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(params=f'message={event.text}.&peer_id={event.peer_id}&message_id={event.message_id}&keep_forward_messages=1', token=token))
+
+
                 if '.run' in event.text.lower():
                     code = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                          method = 'messages.getByConversationMessageId',
-                                          params = f'peer_id={event.peer_id}&conversation_message_ids={json.loads(event.attachments["reply"])["conversation_message_id"]}',
-                                          token = token),
-                                          ).json()['response']['items'][0]['text']
+                    method = 'messages.getByConversationMessageId',
+                    params = f'peer_id={event.peer_id}&conversation_message_ids={json.loads(event.attachments["reply"])["conversation_message_id"]}',
+                    token = token),
+                    ).json()['response']['items'][0]['text']
 
                     result = subprocess.run(
-                        [sys.executable, "-c", code.replace('_', ' ')], capture_output=True, text=True
-                    )
-                    print("stdout:", result.stdout)
-                    print("stderr:", result.stderr)
+                                            [sys.executable, "-c", code.replace('_', ' ')], capture_output=True, text=True
+                                            )
                     requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(
-                                                  params = f'peer_id={event.peer_id}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&message_id={event.message_id}&keep_forward_messages=1',
-                                                  token = token)).json()
+                        params = f'peer_id={event.peer_id}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&message_id={event.message_id}&keep_forward_messages=1',
+                        token = token)).json()
             except Exception as es:
                 print(es)
             if '/voice' in event.text.lower():
