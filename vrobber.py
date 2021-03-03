@@ -80,7 +80,7 @@ for event in longpoll.listen():
                     ).json()['response']['items'][0]['text']
 
                     result = subprocess.run(
-                                            [sys.executable, "-c", code.replace('_', ' ')], capture_output=True, text=True
+                                            [sys.executable, "-c", code.replace('____', '    ')], capture_output=True, text=True
                                             )
                     requests.get('https://api.vk.com/method/messages.edit?{params}&access_token={token}&v=5.95'.format(
                         params = f'peer_id={event.peer_id}&message=Код выполнен. \n\n ВЫВОД: \n {result.stdout} \n\n ОШИБКИ: \n {result.stderr}&message_id={event.message_id}&keep_forward_messages=1',
